@@ -1,43 +1,36 @@
-'use client';
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { Menu, X } from 'lucide-react';
+"use client";
+import { useState } from "react";
+import Link from "next/link";
+import { useSession, signOut } from "next-auth/react";
+import { motion } from "framer-motion";
+import { Menu, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  const { data: session } = useSession();
 
   const navLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'About', path: '/about' },
-    { name: 'Projects', path: '/projects' },
-    { name: 'Blogs', path: '/blogs' },
-    { name: 'Contact', path: '/contact' },
+    { name: "Home", path: "/" },
+    { name: "About", path: "/about" },
+    { name: "Projects", path: "/projects" },
+    { name: "Blogs", path: "/blogs" },
+    { name: "Contact", path: "/contact" },
   ];
 
   return (
-    <nav
-      className={`fixed w-full top-0 z-50 transition-all duration-300 ${
-        scrolled ? 'bg-white/80 backdrop-blur-lg shadow-md' : 'bg-transparent'
-      }`}
-    >
+    <nav className="bg-[#1E3A8A] ">
       <div className="max-w-7xl mx-auto flex justify-between items-center px-6 py-4">
-        {/* Logo */}
-        <Link href="/" className="text-2xl font-bold text-indigo-600">
-          Rohit<span className="text-gray-800">Portfolio</span>
+     
+        <Link
+          href="/"
+          className="text-xl md:text-2xl font-bold text-white"
+        >
+          ROHIT HOSSAIN
         </Link>
 
-        {/* Desktop Links */}
-        <ul className="hidden md:flex space-x-8 font-medium text-gray-700">
+      
+        <ul className="hidden md:flex space-x-8 font-medium text-white">
           {navLinks.map((link) => (
             <li key={link.name}>
               <Link
@@ -45,24 +38,27 @@ const Navbar = () => {
                 className="relative group transition duration-200"
               >
                 {link.name}
-                <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-indigo-600 group-hover:w-full transition-all duration-300"></span>
+                <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-white group-hover:w-full transition-all duration-300"></span>
               </Link>
             </li>
           ))}
         </ul>
 
-        {/* Resume Button */}
-        <div className="hidden md:block">
-          <a
-            href="/resume.pdf"
-            target="_blank"
-            className="bg-indigo-600 text-white px-5 py-2 rounded-full hover:bg-indigo-700 transition"
-          >
-            Download CV
-          </a>
+        <div className="hidden md:flex items-center gap-4">
+          {session?.user ? (
+            <>
+              <Button onClick={() => signOut({ callbackUrl: "/" })}>
+                Logout
+              </Button>
+            </>
+          ) : (
+            <Button className="bg-[#2563EB]">
+              <Link href="/login">Login</Link>
+            </Button>
+          )}
         </div>
 
-        {/* Mobile Menu Button */}
+       
         <button
           onClick={() => setOpen(!open)}
           className="md:hidden text-gray-700"
@@ -71,7 +67,6 @@ const Navbar = () => {
         </button>
       </div>
 
-      {/* Mobile Menu */}
       {open && (
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -90,14 +85,28 @@ const Navbar = () => {
                 </Link>
               </li>
             ))}
+
+          
             <li>
-              <a
-                href="/resume.pdf"
-                target="_blank"
-                className="bg-indigo-600 text-white px-5 py-2 rounded-full hover:bg-indigo-700 transition"
-              >
-                Download CV
-              </a>
+              {session?.user ? (
+                <button
+                  onClick={() => {
+                    signOut({ callbackUrl: "/" });
+                    setOpen(false);
+                  }}
+                  className="bg-indigo-600 text-white px-5 py-2 rounded-full hover:bg-indigo-700 transition"
+                >
+                  Logout
+                </button>
+              ) : (
+                <Link
+                  href="/login"
+                  onClick={() => setOpen(false)}
+                  className="bg-indigo-600 text-white px-5 py-2 rounded-full hover:bg-indigo-700 transition"
+                >
+                  Login
+                </Link>
+              )}
             </li>
           </ul>
         </motion.div>
