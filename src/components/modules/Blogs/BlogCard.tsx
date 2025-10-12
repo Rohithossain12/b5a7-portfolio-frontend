@@ -1,16 +1,10 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { BlogCardProps } from "@/types/blogsTypes";
 import Image from "next/image";
 import Link from "next/link";
 
-export type BlogCardProps = {
-  id: string;
-  title: string;
-  excerpt: string;
-  coverUrl: string;
-  createdAt: string;
-};
 
 const BlogCard = ({ id, title, excerpt, coverUrl, createdAt }: BlogCardProps) => {
   return (

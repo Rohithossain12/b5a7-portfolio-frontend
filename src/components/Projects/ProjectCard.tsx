@@ -4,19 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ExternalLink, Github, ArrowRight, Globe } from "lucide-react";
+import { ProjectCardProps } from "@/types/projectTypes";
 
-export interface ProjectCardProps {
-  id: string;
-  title: string;
-  slug: string;
-  description: string;
-  features?: string[];
-  technologies?: string[];
-  liveUrl?: string;
-  frontendUrl?: string;
-  backendUrl?: string;
-  thumbnail?: string;
-}
+
 
 const ProjectCard = ({
   id,

@@ -1,4 +1,5 @@
-import BlogCard, { BlogCardProps } from "@/components/modules/Blogs/BlogCard";
+import BlogCard from "@/components/modules/Blogs/BlogCard";
+import { BlogCardProps } from "@/types/blogsTypes";
 
 const BlogPage = async () => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blogs`, {

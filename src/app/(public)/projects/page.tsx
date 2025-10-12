@@ -1,6 +1,7 @@
 import ProjectCard, {
-  ProjectCardProps,
+
 } from "@/components/Projects/ProjectCard";
+import { ProjectCardProps } from "@/types/projectTypes";
 
 const ProjectPage = async () => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/projects`, {
