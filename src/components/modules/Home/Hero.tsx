@@ -9,44 +9,36 @@ import { TypeAnimation } from "react-type-animation";
 const Hero = () => {
   return (
     <section className="min-h-screen flex flex-col justify-center items-center text-center bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-950 px-6 pt-4 md:pt-0">
-     
       <motion.h1
         initial={{ opacity: 0, y: -40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7 }}
         className="text-3xl md:text-5xl font-bold text-gray-800 dark:text-white mb-4"
       >
-        Hi, I’m 
+        Hi, I’m
         <TypeAnimation
-          sequence={[
-            " Md Rohit Hossain", 
-            4000, 
-            "", 
-            1000, 
-          ]}
-          speed={{ type: "keyStrokeDelayInMs", value: 250 }} 
+          sequence={[" Md Rohit Hossain", 4000, "", 1000]}
+          speed={{ type: "keyStrokeDelayInMs", value: 250 }}
           repeat={Infinity}
           wrapper="span"
           className="text-blue-600"
         />
       </motion.h1>
 
-     
       <motion.p
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.4, duration: 0.8 }}
         className="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mb-8"
       >
-        A passionate
+        A passionate{" "}
         <span className="font-semibold text-blue-500">
           Full Stack Developer
-        </span>
+        </span>{" "}
         skilled in building modern, responsive, and scalable web applications
         using React, Next.js, Node.js, and MongoDB.
       </motion.p>
 
-     
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -68,7 +60,6 @@ const Hero = () => {
         </Link>
       </motion.div>
 
-     
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}

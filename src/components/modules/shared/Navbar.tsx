@@ -22,15 +22,10 @@ const Navbar = () => {
   return (
     <nav className="bg-[#1E3A8A] ">
       <div className="max-w-7xl mx-auto flex justify-between items-center px-6 py-4">
-     
-        <Link
-          href="/"
-          className="text-xl md:text-2xl font-bold text-white"
-        >
+        <Link href="/" className="text-xl md:text-2xl font-bold text-white">
           ROHIT HOSSAIN
         </Link>
 
-      
         <ul className="hidden md:flex space-x-8 font-medium text-white">
           {navLinks.map((link) => (
             <li key={link.name}>
@@ -48,24 +43,26 @@ const Navbar = () => {
         <div className="hidden md:flex items-center gap-4">
           {session?.user ? (
             <>
-              <Button onClick={() => signOut({ callbackUrl: "/" })}>
+              <Button
+                className="bg-[#2563EB] text-white rounded transition-none hover:bg-[#2563EB]"
+                onClick={() => signOut({ callbackUrl: "/" })}
+              >
                 Logout
               </Button>
             </>
           ) : (
-            <Button className="bg-[#2563EB]">
+            <Button className="bg-[#2563EB] text-white  rounded transition-none hover:bg-[#2563EB]">
               <Link href="/login">Login</Link>
             </Button>
           )}
         </div>
 
-       
-        <button
+        <Button
           onClick={() => setOpen(!open)}
-          className="md:hidden text-gray-700"
+          className="md:hidden text-white bg-[#2563EB]"
         >
           {open ? <X size={28} /> : <Menu size={28} />}
-        </button>
+        </Button>
       </div>
 
       {open && (
@@ -87,26 +84,23 @@ const Navbar = () => {
               </li>
             ))}
 
-          
             <li>
               {session?.user ? (
-                <button
+                <Button
                   onClick={() => {
                     signOut({ callbackUrl: "/" });
                     setOpen(false);
                   }}
-                  className="bg-indigo-600 text-white px-5 py-2 rounded-full hover:bg-indigo-700 transition"
+                  className="bg-[#2563EB] text-white  rounded hover:bg-[#2563EB]"
                 >
                   Logout
-                </button>
+                </Button>
               ) : (
-                <Link
-                  href="/login"
-                  onClick={() => setOpen(false)}
-                  className="bg-indigo-600 text-white px-5 py-2 rounded-full hover:bg-indigo-700 transition"
-                >
-                  Login
-                </Link>
+                <Button className="bg-[#2563EB] text-white  rounded hover:bg-[#2563EB]">
+                  <Link href="/login" onClick={() => setOpen(false)}>
+                    Login
+                  </Link>
+                </Button>
               )}
             </li>
           </ul>
