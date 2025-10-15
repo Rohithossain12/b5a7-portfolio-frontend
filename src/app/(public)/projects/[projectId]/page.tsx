@@ -1,30 +1,30 @@
+import ProjectDetails from "@/components/Projects/ProjectDetails";
+
+
 const ProjectDetailsPage = async ({
   params,
 }: {
-  params: Promise<{ projectId: string }>;
+  params: { projectId: string };
 }) => {
-  const { projectId } = await params;
+  const { projectId } = params;
 
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_API}/projects/${projectId}`,
-    {
-      cache: "no-store",
-    }
+    { cache: "no-store" }
   );
 
   const result = await res.json();
   const project = result.data;
 
   if (!project) {
-    return <div>Project not found 😕</div>;
+    return (
+      <div className="flex justify-center items-center min-h-[60vh] text-gray-500 text-lg">
+        Project not found 😕
+      </div>
+    );
   }
 
-  return (
-    <div>
-      <h1>{project.title}</h1>
-      <p>{project.description}</p>
-    </div>
-  );
+  return <ProjectDetails project={project} />;
 };
 
 export default ProjectDetailsPage;

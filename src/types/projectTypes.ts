@@ -10,3 +10,20 @@ export interface ProjectCardProps {
   backendUrl?: string;
   thumbnail?: string;
 }
+
+
+export interface ProjectProps {
+  project: {
+    id: string;
+    title: string;
+    description: string;
+    features: string[];
+    technologies: string[];
+    frontendUrl?: string;
+    backendUrl?: string;
+    liveUrl?: string;
+    thumbnail?: string;
+    createdAt: string;
+    updatedAt: string;
+  };
+}

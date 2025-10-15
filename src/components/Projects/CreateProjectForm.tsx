@@ -36,7 +36,6 @@ const CreateProjectForm = () => {
 
         <CardContent>
           <form className="space-y-6">
-           
             <div className="space-y-2">
               <Label htmlFor="title">Project Title</Label>
               <Input
@@ -46,7 +45,6 @@ const CreateProjectForm = () => {
               />
             </div>
 
-            
             <div className="space-y-2">
               <Label htmlFor="description">Description</Label>
               <Textarea
@@ -56,7 +54,6 @@ const CreateProjectForm = () => {
               />
             </div>
 
-           
             <div className="space-y-2">
               <Label htmlFor="features">Features (comma separated)</Label>
               <Input
@@ -65,9 +62,10 @@ const CreateProjectForm = () => {
               />
             </div>
 
-            
             <div className="space-y-2">
-              <Label htmlFor="technologies">Technologies (comma separated)</Label>
+              <Label htmlFor="technologies">
+                Technologies (comma separated)
+              </Label>
               <Input
                 id="technologies"
                 placeholder="e.g., React, Node.js, MongoDB"
@@ -89,7 +87,11 @@ const CreateProjectForm = () => {
               </div>
             </div>
 
-         
+            <div className="space-y-2">
+              <Label htmlFor="liveUrl">Live URL</Label>
+              <Input id="liveUrl" placeholder="https://your-live-site.com" />
+            </div>
+
             <div className="space-y-2">
               <Label htmlFor="thumbnail">Thumbnail Image</Label>
               <div className="flex items-center gap-3">
@@ -112,7 +114,6 @@ const CreateProjectForm = () => {
               </div>
             </div>
 
-           
             <div className="pt-2">
               <Button
                 type="button"
