@@ -72,7 +72,7 @@ const CreateBlogForm = () => {
               <div className="flex items-center gap-3">
                 <label
                   htmlFor="coverUrl"
-                  className="flex items-center gap-2 cursor-pointer rounded-lg border border-dashed border-gray-300 p-3 w-full hover:bg-gray-50 transition"
+                  className="flex items-center gap-2 cursor-pointer rounded-lg border border-dashed border-hover:bg-[#2563EB] p-3 w-full hover:bg-gray-50 transition"
                 >
                   <Upload className="w-5 h-5 text-gray-600" />
                   <span className="text-sm text-gray-600">
@@ -92,8 +92,9 @@ const CreateBlogForm = () => {
           
             <div className="pt-2">
               <Button
+
                 type="submit"
-                className="w-full bg-black text-white hover:bg-gray-800 transition"
+                className="w-full bg-[#2563EB] text-white hover:bg-[#2563EB] transition"
               >
                 Create Blog
               </Button>

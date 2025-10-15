@@ -5,7 +5,7 @@ import { Home, PlusCircle, FolderPlus, FileText, FolderCog } from "lucide-react"
 
 export default function Sidebar() {
   return (
-    <aside className="flex h-screen w-64 flex-col border-r bg-black text-white">
+    <aside className="flex h-screen w-64 flex-col border-r bg-[#1E3A8A] text-white">
       <nav className="flex-1 space-y-2 p-4">
    
         <Link

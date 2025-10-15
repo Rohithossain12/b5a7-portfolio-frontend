@@ -24,7 +24,7 @@ const LatestBlogs = ({ blogs }: LatestBlogsProps) => {
       <div className="flex justify-center mt-10">
         <Link
           href="/blogs"
-          className="inline-block bg-blue-600 text-white font-semibold px-4 py-2 rounded-2xl shadow-md hover:bg-blue-700 transition-all duration-300"
+          className="inline-block bg-[#2563EB] text-white font-semibold px-4 py-2 rounded-2xl shadow-md hover:bg-[#2563EB] transition-all duration-300"
         >
           View All Blogs →
         </Link>

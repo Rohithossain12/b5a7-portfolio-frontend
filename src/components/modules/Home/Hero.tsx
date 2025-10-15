@@ -47,14 +47,14 @@ const Hero = () => {
       >
         <Link
           href="/projects"
-          className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-2xl font-semibold transition-all duration-300 shadow-md hover:shadow-lg"
+          className="flex items-center gap-2 bg-[#2563EB] hover:bg-[#2563EB] text-white px-6 py-3 rounded-2xl font-semibold transition-all duration-300 shadow-md hover:shadow-lg"
         >
           View My Projects <ArrowRight className="w-5 h-5" />
         </Link>
 
         <Link
           href="/contact"
-          className="flex items-center gap-2 border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white px-6 py-3 rounded-2xl font-semibold transition-all duration-300"
+          className="flex items-center gap-2 border border-[#2563EB] text-blue-600 hover:hover:bg-[#2563EB] hover:text-white px-6 py-3 rounded-2xl font-semibold transition-all duration-300"
         >
           Contact Me <Send className="w-5 h-5" />
         </Link>

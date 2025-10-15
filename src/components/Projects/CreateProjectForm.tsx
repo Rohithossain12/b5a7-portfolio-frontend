@@ -117,7 +117,7 @@ const CreateProjectForm = () => {
             <div className="pt-2">
               <Button
                 type="button"
-                className="w-full bg-black text-white hover:bg-gray-800 transition"
+                className="w-full bg-[#2563EB] text-white hover:bg-[#2563EB] transition"
               >
                 Create Project
               </Button>
