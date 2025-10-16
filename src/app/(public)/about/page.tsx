@@ -1,11 +1,18 @@
+import AboutPage from "@/components/modules/About/AboutPage";
+import { Metadata } from "next";
 import React from "react";
 
-const AboutPage = () => {
+export const metadata: Metadata = {
+  title: "About Me | Rohit Portfolio",
+  description: "Learn more about Md Rohit Hossain - Full Stack Developer",
+};
+
+const AboutDetailsPage = () => {
   return (
     <div>
-      <h1>About Page</h1>
+      <AboutPage />
     </div>
   );
 };
 
-export default AboutPage;
+export default AboutDetailsPage;

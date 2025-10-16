@@ -9,7 +9,7 @@ interface LatestProjectsProps {
 const ProjectsShowcase = ({ projects }: LatestProjectsProps) => {
   return (
     <section className=" py-8 px-6 lg:px-12 bg-white dark:bg-gray-900">
-      <h2 className="text-2xl font-bold text-center mb-8 text-gray-800 dark:text-white">
+      <h2 className="text-2xl md:text-3xl font-bold text-center mb-8 text-blue-500">
         📰 Latest Projects
       </h2>
 

@@ -90,7 +90,7 @@ export default function LoginForm() {
               )}
             />
 
-            <Button type="submit" className="w-full mt-2">
+            <Button type="submit" className="w-full mt-2 bg-[#2563EB] hover:bg-[#1D4ED8]">
               Login
             </Button>
           </form>

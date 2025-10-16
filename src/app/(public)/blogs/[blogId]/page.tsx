@@ -1,4 +1,34 @@
 import Image from "next/image";
+import type { Metadata } from "next";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { blogId: string };
+}): Promise<Metadata> {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_API}/blogs/${params.blogId}`,
+    { cache: "no-store" }
+  );
+
+  const result = await res.json();
+  const blog = result?.data;
+
+  if (!blog) {
+    return {
+      title: "Blog Not Found | Rohit Portfolio",
+      description: "The requested blog could not be found.",
+    };
+  }
+
+  return {
+    title: `${blog.title} | Rohit Portfolio`,
+    description:
+      blog.description ||
+      blog.content?.slice(0, 150) + "..." ||
+      "Read insightful articles from Md Rohit Hossain's portfolio.",
+  };
+}
 
 const BlogDetailsPage = async ({
   params,
@@ -16,7 +46,6 @@ const BlogDetailsPage = async ({
 
   const result = await res.json();
   const blog = result.data;
-
 
   if (!blog) {
     return (
