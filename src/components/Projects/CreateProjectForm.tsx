@@ -16,9 +16,12 @@ import { Label } from "@/components/ui/label";
 import { Upload } from "lucide-react";
 import { createProject } from "@/actions/create";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const CreateProjectForm = () => {
   const [fileName, setFileName] = useState("");
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -27,6 +30,7 @@ const CreateProjectForm = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true); 
     const formData = new FormData(e.currentTarget);
 
     try {
@@ -34,11 +38,16 @@ const CreateProjectForm = () => {
 
       if (result?.success) {
         toast.success("Project created successfully!");
+        setTimeout(() => {
+          router.push("/projects");
+        }, 1000);
       } else {
         toast.error(result?.message || "Failed to create project");
       }
     } catch (error: any) {
       toast.error(error.message || "Something went wrong!");
+    } finally {
+      setLoading(false); 
     }
   };
 
@@ -147,9 +156,10 @@ const CreateProjectForm = () => {
 
             <Button
               type="submit"
-              className="w-full bg-[#2563EB] hover:bg-[#2563EB] text-white"
+              className="w-full bg-[#2563EB] hover:bg-[#2563EB] text-white flex items-center justify-center gap-2"
+              disabled={loading} 
             >
-              Create Project
+              {loading ? "Creating..." : "Create Project"} 
             </Button>
           </form>
         </CardContent>
