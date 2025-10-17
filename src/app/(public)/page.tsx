@@ -17,7 +17,7 @@ const HomePage = async () => {
 
   const res1 = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/projects`, {
     next: {
-      revalidate: 30,
+      tags:["PROJECTS"]
     },
   });
   const result2 = await res1.json();

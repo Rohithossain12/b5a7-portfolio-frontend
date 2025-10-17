@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState } from "react";
@@ -13,13 +14,32 @@ import {
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Upload } from "lucide-react";
+import { createProject } from "@/actions/create";
+import { toast } from "sonner";
 
 const CreateProjectForm = () => {
-  const [fileName, setFileName] = useState<string>("");
+  const [fileName, setFileName] = useState("");
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) setFileName(file.name);
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+
+    try {
+      const result = await createProject(formData);
+
+      if (result?.success) {
+        toast.success("Project created successfully!");
+      } else {
+        toast.error(result?.message || "Failed to create project");
+      }
+    } catch (error: any) {
+      toast.error(error.message || "Something went wrong!");
+    }
   };
 
   return (
@@ -35,13 +55,14 @@ const CreateProjectForm = () => {
         </CardHeader>
 
         <CardContent>
-          <form className="space-y-6">
+          <form className="space-y-6" onSubmit={handleSubmit}>
             <div className="space-y-2">
               <Label htmlFor="title">Project Title</Label>
               <Input
                 id="title"
+                name="title"
                 placeholder="Enter your project title"
-                className="w-full"
+                required
               />
             </div>
 
@@ -49,8 +70,9 @@ const CreateProjectForm = () => {
               <Label htmlFor="description">Description</Label>
               <Textarea
                 id="description"
-                placeholder="Write a brief description of your project..."
-                className="min-h-[120px]"
+                name="description"
+                placeholder="Write a brief description..."
+                required
               />
             </div>
 
@@ -58,7 +80,8 @@ const CreateProjectForm = () => {
               <Label htmlFor="features">Features (comma separated)</Label>
               <Input
                 id="features"
-                placeholder="e.g., User Login, Dashboard, Notifications"
+                name="features"
+                placeholder="e.g., User Login, Dashboard"
               />
             </div>
 
@@ -68,7 +91,8 @@ const CreateProjectForm = () => {
               </Label>
               <Input
                 id="technologies"
-                placeholder="e.g., React, Node.js, MongoDB"
+                name="technologies"
+                placeholder="e.g., React, Node.js"
               />
             </div>
 
@@ -77,19 +101,27 @@ const CreateProjectForm = () => {
                 <Label htmlFor="frontendUrl">Frontend URL</Label>
                 <Input
                   id="frontendUrl"
+                  name="frontendUrl"
                   placeholder="https://frontend-link.com"
                 />
               </div>
-
               <div className="space-y-2">
                 <Label htmlFor="backendUrl">Backend URL</Label>
-                <Input id="backendUrl" placeholder="https://backend-link.com" />
+                <Input
+                  id="backendUrl"
+                  name="backendUrl"
+                  placeholder="https://backend-link.com"
+                />
               </div>
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="liveUrl">Live URL</Label>
-              <Input id="liveUrl" placeholder="https://your-live-site.com" />
+              <Input
+                id="liveUrl"
+                name="liveUrl"
+                placeholder="https://your-live-site.com"
+              />
             </div>
 
             <div className="space-y-2">
@@ -97,14 +129,13 @@ const CreateProjectForm = () => {
               <div className="flex items-center gap-3">
                 <label
                   htmlFor="thumbnail"
-                  className="flex items-center gap-2 cursor-pointer rounded-lg border border-dashed border-gray-300 p-3 w-full hover:bg-gray-50 transition"
+                  className="flex items-center gap-2 cursor-pointer border border-dashed p-3 w-full"
                 >
-                  <Upload className="w-5 h-5 text-gray-600" />
-                  <span className="text-sm text-gray-600">
-                    {fileName || "Click to upload project thumbnail"}
-                  </span>
+                  <Upload className="w-5 h-5" />
+                  <span>{fileName || "Click to upload"}</span>
                   <Input
                     id="thumbnail"
+                    name="thumbnail"
                     type="file"
                     accept="image/*"
                     className="hidden"
@@ -114,14 +145,12 @@ const CreateProjectForm = () => {
               </div>
             </div>
 
-            <div className="pt-2">
-              <Button
-                type="button"
-                className="w-full bg-[#2563EB] text-white hover:bg-[#2563EB] transition"
-              >
-                Create Project
-              </Button>
-            </div>
+            <Button
+              type="submit"
+              className="w-full bg-[#2563EB] hover:bg-[#2563EB] text-white"
+            >
+              Create Project
+            </Button>
           </form>
         </CardContent>
       </Card>
