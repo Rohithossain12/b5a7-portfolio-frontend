@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, Send } from "lucide-react";
 import { TypeAnimation } from "react-type-animation";
 
 const Hero = () => {
@@ -13,7 +12,7 @@ const Hero = () => {
         initial={{ opacity: 0, y: -40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7 }}
-        className="text-3xl md:text-5xl font-bold text-gray-800 dark:text-white mb-4"
+        className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-4"
       >
         Hi, I’m
         <TypeAnimation
@@ -47,16 +46,16 @@ const Hero = () => {
       >
         <Link
           href="/projects"
-          className="flex items-center gap-2 bg-[#2563EB] hover:bg-[#2563EB] text-white px-6 py-3 rounded-2xl font-semibold transition-all duration-300 shadow-md hover:shadow-lg"
+          className="flex items-center gap-2 bg-[#2563EB] hover:bg-[#2563EB] text-white px-4 py-2 rounded-lg font-semibold transition-all duration-300 shadow-md hover:shadow-lg"
         >
-          View My Projects <ArrowRight className="w-5 h-5" />
+          View My Projects 
         </Link>
 
         <Link
           href="/contact"
-          className="flex items-center gap-2 border border-[#2563EB] text-blue-600 hover:hover:bg-[#2563EB] hover:text-white px-6 py-3 rounded-2xl font-semibold transition-all duration-300"
+          className="flex items-center gap-2 border border-[#2563EB] text-blue-600 hover:hover:bg-[#2563EB] hover:text-white px-4 py-2 rounded-lg font-semibold transition-all duration-300"
         >
-          Contact Me <Send className="w-5 h-5" />
+          Contact Me 
         </Link>
       </motion.div>
 

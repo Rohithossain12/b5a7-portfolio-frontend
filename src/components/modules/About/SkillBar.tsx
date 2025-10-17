@@ -18,7 +18,7 @@ const SkillBar: React.FC<SkillBarProps> = ({ name, level }) => {
           initial={{ width: 0 }}
           animate={{ width: `${level}%` }}
           transition={{ duration: 1 }}
-          className="bg-blue-600 h-3 rounded-full"
+          className="bg-[#2563EB] h-3 rounded-full"
         />
       </div>
     </div>

@@ -1,3 +1,4 @@
+import ContactPageDetails from "@/components/modules/Contact/ContactPageDetails";
 import { Metadata } from "next";
 
 
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
 const ContactPage = () => {
     return (
         <div>
-            <h1>Contact Page</h1>
+           <ContactPageDetails/>
         </div>
     );
 };
