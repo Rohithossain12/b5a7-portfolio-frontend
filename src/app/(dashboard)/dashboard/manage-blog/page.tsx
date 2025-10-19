@@ -1,8 +1,7 @@
-import Image from "next/image";
-import { Metadata } from "next";
-import { Edit, Trash2 } from "lucide-react";
-import { BlogCardProps } from "@/types/blogsTypes";
 
+import { Metadata } from "next";
+
+import ManageBlogsTable from "@/components/modules/Blogs/ManageBlogsTable";
 export const metadata: Metadata = {
   title: "Manage Blogs | Rohit Portfolio",
   description:
@@ -22,62 +21,7 @@ const ManageBlogPage = async () => {
         Manage Blogs
       </h1>
 
-      <div className="overflow-x-auto rounded-2xl shadow">
-        <table className="min-w-full text-sm text-gray-700">
-          <thead className="bg-gray-100 text-gray-800">
-            <tr>
-              <th className="p-3 text-left">#</th>
-              <th className="p-3 text-left">Cover</th>
-              <th className="p-3 text-left">Title</th>
-              <th className="p-3 text-center">Actions</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {blogs && blogs.length > 0 ? (
-              blogs.map((blog: BlogCardProps, index: number) => (
-                <tr
-                  key={blog.id || index}
-                  className="border-b hover:bg-gray-50 transition"
-                >
-                  <td className="p-3">{index + 1}</td>
-
-                  <td className="p-3">
-                    <div className="relative w-16 h-16 rounded-lg overflow-hidden">
-                      <Image
-                        src={blog.coverUrl || "/placeholder.png"}
-                        alt={blog.title}
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                  </td>
-
-                  <td className="p-3 font-medium">{blog.title}</td>
-
-                  <td className="p-3 text-center flex justify-center gap-4">
-                    <button className="text-blue-600 hover:text-blue-800 transition">
-                      <Edit size={18} />
-                    </button>
-                    <button className="text-red-600 hover:text-red-800 transition">
-                      <Trash2 size={18} />
-                    </button>
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td
-                  colSpan={4}
-                  className="text-center py-6 text-gray-500 font-medium"
-                >
-                  No blogs found.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+      <ManageBlogsTable blogs={blogs} />
     </section>
   );
 };
