@@ -10,7 +10,7 @@ interface LatestProjectTableProps {
 export default function LatestProjectTable({ projects }: LatestProjectTableProps) {
   return (
     <div className="mt-6">
-      <h2 className="text-xl font-bold mb-4">Latest Projects</h2>
+      <h2 className="text-xl text-blue-500 font-bold mb-4">Latest Projects</h2>
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white border border-gray-200 rounded-xl shadow">
           <thead>

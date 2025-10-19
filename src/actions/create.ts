@@ -17,3 +17,19 @@ export const createProject = async (formData: FormData) => {
 
     return result;
 };
+
+export const createBlog = async (formData: FormData) => {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blogs`, {
+        method: "POST",
+        body: formData,
+        credentials: "include",
+    });
+
+    const result = await res.json();
+    if (res.ok && result?.success) {
+        revalidateTag("BLOGS");
+        revalidatePath("/blogs");
+    }
+
+    return result;
+};

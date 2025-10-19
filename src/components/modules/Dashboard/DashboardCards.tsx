@@ -18,7 +18,7 @@ export default function DashboardCards({ blogsCount, projectsCount }: DashboardC
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
       <motion.div
-        className="bg-white shadow-md rounded-2xl p-6 flex flex-col justify-between border border-gray-200"
+        className="bg-white shadow rounded-2xl p-6 flex flex-col justify-between border border-gray-200 text-center"
         variants={cardVariants}
         initial="hidden"
         animate="visible"
@@ -30,7 +30,7 @@ export default function DashboardCards({ blogsCount, projectsCount }: DashboardC
       </motion.div>
 
       <motion.div
-        className="bg-white shadow-md rounded-2xl p-6 flex flex-col justify-between border border-gray-200"
+        className="bg-white shadow rounded-2xl p-6 flex flex-col justify-between border border-gray-200 text-center"
         variants={cardVariants}
         initial="hidden"
         animate="visible"

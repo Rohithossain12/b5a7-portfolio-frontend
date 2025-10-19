@@ -11,7 +11,7 @@ interface LatestBlogsTableProps {
 export default function LatestBlogsTable({ blogs }: LatestBlogsTableProps) {
   return (
     <div className="mt-6">
-      <h2 className="text-xl font-bold mb-4">Latest Blogs</h2>
+      <h2 className="text-xl text-blue-500 font-bold mb-4">Latest Blogs</h2>
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white border border-gray-200 rounded-xl shadow">
           <thead>
