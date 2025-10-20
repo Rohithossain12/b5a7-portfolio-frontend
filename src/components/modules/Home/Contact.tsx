@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { Mail, Phone, MapPin, Github, Linkedin, Facebook } from "lucide-react";
+import { Mail, Phone, MapPin } from "lucide-react";
 
 const Contact = () => {
   return (
@@ -47,41 +47,7 @@ const Contact = () => {
           </div>
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.6, duration: 0.8 }}
-          className="flex justify-center gap-6 text-gray-600 dark:text-gray-300 mb-10"
-        >
-          <Link
-            href="https://github.com/Rohithossain12"
-            target="_blank"
-            className="text-blue-400 hover:text-blue-600 transition duration-300"
-          >
-            <Github size={28} />
-          </Link>
-          <Link
-            href="https://www.linkedin.com/in/rohit-hossain-4b21281b9/"
-            target="_blank"
-            className="text-blue-400 hover:text-blue-500 transition duration-300"
-          >
-            <Linkedin size={28} />
-          </Link>
-          <Link
-            href="https://www.facebook.com/rafid.islam.96199"
-            target="_blank"
-            className="text-blue-400 hover:text-blue-500 transition duration-300"
-          >
-            <Facebook size={28} />
-          </Link>
-
-          <a
-            href="mailto:rafidislamrohit576@gmail.com"
-            className="text-blue-400 hover:text-blue-500 transition duration-300"
-          >
-            <Mail size={28} />
-          </a>
-        </motion.div>
+       
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}

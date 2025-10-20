@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Link from "next/link";
 import SkillBar from "./SkillBar";
 
 export const revalidate = false;
@@ -105,16 +104,7 @@ export default function AboutPage() {
         </div>
       </motion.div>
 
-      {/* Resume Button */}
-      <div className="text-center mt-14">
-        <Link
-          href="/resume.pdf"
-          target="_blank"
-          className="inline-block bg-[#2563EB] text-white px-4 py-2 rounded-lg font-semibold shadow-lg hover:opacity-90 transition duration-300"
-        >
-           Download Resume
-        </Link>
-      </div>
+    
     </section>
   );
 }

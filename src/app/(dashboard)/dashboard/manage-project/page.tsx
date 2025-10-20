@@ -18,9 +18,7 @@ const ManageProjectPage = async () => {
 
   return (
     <section className="max-w-6xl mx-auto px-4">
-      <h1 className="text-xl md:text-2xl font-bold mb-6 text-center sm:text-left text-blue-500">
-        Manage Projects
-      </h1>
+    
      
       <ManageProjectsTable projects={projects} />
     </section>
