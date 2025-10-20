@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 const DashboardHomePage = async () => {
   const resBlogs = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blogs`, {
-    next: { revalidate: 30 },
+    next: { tags:["BLOGS"] },
   });
   const blogs = (await resBlogs.json()).data || [];
 

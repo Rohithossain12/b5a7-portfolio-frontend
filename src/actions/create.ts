@@ -33,3 +33,19 @@ export const createBlog = async (formData: FormData) => {
 
     return result;
 };
+
+
+
+export const updateProject = async (projectId: string, formData: FormData) => {
+    const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_API}/projects/${projectId}`,
+        {
+            method: "PATCH",
+            body: formData,
+        }
+    );
+
+    const result = await res.json();
+    return result;
+};
+

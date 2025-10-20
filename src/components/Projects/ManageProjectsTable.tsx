@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Edit, Trash2 } from "lucide-react";
 import { toast, Toaster } from "sonner";
 import { ProjectCardProps } from "@/types/projectTypes";
+import UpdateProjectForm from "./UpdateProjectForm";
 
 interface ManageProjectsTableProps {
   projects: ProjectCardProps[];
@@ -12,6 +13,7 @@ interface ManageProjectsTableProps {
 
 const ManageProjectsTable = ({ projects }: ManageProjectsTableProps) => {
   const [projectList, setProjectList] = useState(projects);
+  const [editingProjectId, setEditingProjectId] = useState<string | null>(null); // 🔹 track edit mode
 
   const handleDelete = async (id: string) => {
     toast.custom((t) => (
@@ -22,13 +24,12 @@ const ManageProjectsTable = ({ projects }: ManageProjectsTableProps) => {
         <div className="flex justify-center gap-3">
           <button
             onClick={async () => {
-              toast.dismiss(t); 
+              toast.dismiss(t);
               try {
                 const res = await fetch(
                   `${process.env.NEXT_PUBLIC_BASE_API}/projects/${id}`,
                   {
                     method: "DELETE",
-                    // credentials: "include",
                   }
                 );
                 const data = await res.json();
@@ -58,6 +59,11 @@ const ManageProjectsTable = ({ projects }: ManageProjectsTableProps) => {
       </div>
     ));
   };
+
+ 
+  if (editingProjectId) {
+    return <UpdateProjectForm projectId={editingProjectId}  />; 
+  }
 
   return (
     <>
@@ -93,7 +99,10 @@ const ManageProjectsTable = ({ projects }: ManageProjectsTableProps) => {
                   </td>
                   <td className="p-3 font-medium">{project.title}</td>
                   <td className="p-3 text-center flex justify-center gap-4">
-                    <button className="text-blue-600 hover:text-blue-800 transition">
+                    <button
+                      onClick={() => setEditingProjectId(project.id)} 
+                      className="text-blue-600 hover:text-blue-800 transition"
+                    >
                       <Edit size={18} />
                     </button>
                     <button
