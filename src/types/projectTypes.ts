@@ -12,6 +12,12 @@ export interface ProjectCardProps {
 }
 
 
+
+export interface UpdateProjectFormProps {
+  projectId: string;
+}
+
+
 export interface ProjectProps {
   project: {
     id: string;

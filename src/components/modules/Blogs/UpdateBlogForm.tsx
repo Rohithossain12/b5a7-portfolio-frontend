@@ -15,31 +15,30 @@ import {
 import { Label } from "@/components/ui/label";
 import { Upload } from "lucide-react";
 import Image from "next/image";
-import { updateProject } from "@/actions/create";
+import { updateBlog } from "@/actions/create";
 import { toast } from "sonner";
-import { ProjectCardProps, UpdateProjectFormProps } from "@/types/projectTypes";
+import { BlogCardProps, UpdateBlogsFormProps } from "@/types/blogsTypes";
 
-
-const UpdateProjectForm = ({ projectId }: UpdateProjectFormProps) => {
-  const [project, setProject] = useState<ProjectCardProps | null>(null);
+const UpdateBlogForm = ({ blogId }: UpdateBlogsFormProps) => {
+  const [blog, setBlog] = useState<BlogCardProps | null>(null);
   const [fileName, setFileName] = useState("");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const fetchProject = async () => {
+    const fetchBlog = async () => {
       try {
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_API}/projects/${projectId}`,
+          `${process.env.NEXT_PUBLIC_BASE_API}/blogs/${blogId}`,
           { cache: "no-store" }
         );
         const result = await res.json();
-        setProject(result.data);
+        setBlog(result.data);
       } catch (err) {
         console.error(err);
       }
     };
-    fetchProject();
-  }, [projectId]);
+    fetchBlog();
+  }, [blogId]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -47,137 +46,109 @@ const UpdateProjectForm = ({ projectId }: UpdateProjectFormProps) => {
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-  e.preventDefault();
-  setLoading(true);
+    e.preventDefault();
+    setLoading(true);
 
-  const formData = new FormData(e.currentTarget);
+    const formData = new FormData(e.currentTarget);
 
- 
-  if (!fileName && project?.thumbnail) {
-    formData.set("thumbnail", project.thumbnail);
-  }
-
-  try {
-    const result = await updateProject(projectId, formData);
-    if (result.success) {
-      toast.success("Project updated successfully!");
-    } else {
-      toast.error(result.message || "Failed to update project!");
+   
+    if (!fileName && blog?.coverUrl) {
+      formData.set("coverUrl", blog.coverUrl);
     }
-  } catch (err: any) {
-    toast.error(err.message || "Something went wrong!");
-  } finally {
-    setLoading(false);
-  }
-};
 
-  if (!project) return <p className="text-center py-10">Loading project...</p>;
+    try {
+      const result = await updateBlog(blogId, formData);
+      if (result.success) {
+        toast.success("Blog updated successfully!");
+      } else {
+        toast.error(result.message || "Failed to update blog!");
+      }
+    } catch (err: any) {
+      toast.error(err.message || "Something went wrong!");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (!blog) return <p className="text-center py-10">Loading blog...</p>;
 
   return (
     <div className="flex justify-center items-center min-h-screen px-4 bg-gray-50">
       <Card className="w-full max-w-2xl shadow-lg border border-gray-200">
         <CardHeader>
           <CardTitle className="text-2xl font-bold text-center text-gray-800">
-            Update Project
+            Update Blog
           </CardTitle>
           <CardDescription className="text-center text-gray-500">
-            Edit the project details below
+            Edit the blog details below
           </CardDescription>
         </CardHeader>
+
         <CardContent>
           <form className="space-y-6" onSubmit={handleSubmit}>
+         
             <div className="space-y-2">
-              <Label htmlFor="title">Project Title</Label>
+              <Label htmlFor="title">Blog Title</Label>
               <Input
                 id="title"
                 name="title"
-                defaultValue={project.title}
+                defaultValue={blog.title}
                 required
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="description">Description</Label>
+              <Label htmlFor="excerpt">Excerpt</Label>
               <Textarea
-                id="description"
-                name="description"
-                defaultValue={project.description}
+                id="excerpt"
+                name="excerpt"
+                defaultValue={blog.excerpt}
                 required
               />
             </div>
 
+       
             <div className="space-y-2">
-              <Label htmlFor="features">Features (comma separated)</Label>
-              <Input
-                id="features"
-                name="features"
-                defaultValue={project.features?.join(", ")}
+              <Label htmlFor="content">Content</Label>
+              <Textarea
+                id="content"
+                name="content"
+                defaultValue={blog.content}
+                className="min-h-[150px]"
+                required
               />
             </div>
 
+           
             <div className="space-y-2">
-              <Label htmlFor="technologies">
-                Technologies (comma separated)
-              </Label>
-              <Input
-                id="technologies"
-                name="technologies"
-                defaultValue={project.technologies?.join(", ")}
-              />
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Input
-                id="frontendUrl"
-                name="frontendUrl"
-                defaultValue={project.frontendUrl}
-                placeholder="Frontend URL"
-              />
-              <Input
-                id="backendUrl"
-                name="backendUrl"
-                defaultValue={project.backendUrl}
-                placeholder="Backend URL"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="liveUrl">Live URL</Label>
-              <Input
-                id="liveUrl"
-                name="liveUrl"
-                defaultValue={project.liveUrl}
-                placeholder="Live URL"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="thumbnail">Thumbnail Image</Label>
+              <Label htmlFor="coverUrl">Cover Image</Label>
               <div className="flex items-center gap-3">
-                {project.thumbnail && !fileName && (
+                {blog.coverUrl && !fileName && (
                   <div className="w-20 h-20 relative rounded-lg overflow-hidden border">
                     <Image
-                      src={project.thumbnail}
-                      alt="Thumbnail"
+                      src={blog.coverUrl}
+                      alt="Cover Image"
                       fill
                       className="object-cover"
                     />
                   </div>
                 )}
+
                 {fileName && (
                   <div className="w-20 h-20 flex items-center justify-center border rounded-lg bg-gray-100">
                     <span className="text-sm text-gray-700">{fileName}</span>
                   </div>
                 )}
+
                 <label
-                  htmlFor="thumbnail"
+                  htmlFor="coverUrl"
                   className="flex items-center gap-2 cursor-pointer border border-dashed p-3"
                 >
                   <Upload className="w-5 h-5" />
                   <span>{fileName || "Click to upload"}</span>
                   <Input
-                    id="thumbnail"
-                    name="thumbnail"
+                    id="coverUrl"
+                    name="coverUrl"
                     type="file"
                     className="hidden"
                     accept="image/*"
@@ -187,12 +158,13 @@ const UpdateProjectForm = ({ projectId }: UpdateProjectFormProps) => {
               </div>
             </div>
 
+         
             <Button
               type="submit"
               className="w-full bg-[#2563EB] hover:bg-[#2563EB] text-white flex items-center justify-center gap-2"
               disabled={loading}
             >
-              {loading ? "Updating..." : "Update Project"}
+              {loading ? "Updating..." : "Update Blog"}
             </Button>
           </form>
         </CardContent>
@@ -201,4 +173,4 @@ const UpdateProjectForm = ({ projectId }: UpdateProjectFormProps) => {
   );
 };
 
-export default UpdateProjectForm;
+export default UpdateBlogForm;

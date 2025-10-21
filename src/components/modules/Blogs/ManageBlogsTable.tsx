@@ -5,12 +5,14 @@ import { useState } from "react";
 import { Edit, Trash2 } from "lucide-react";
 import { toast, Toaster } from "sonner";
 import { BlogCardProps } from "@/types/blogsTypes";
+import UpdateBlogForm from "./UpdateBlogForm";
 interface ManageBlogsTableProps {
   blogs: BlogCardProps[];
 }
 
 const ManageBlogsTable = ({ blogs }: ManageBlogsTableProps) => {
   const [blogList, setBlogList] = useState(blogs);
+  const [editingBlogId, setEditingBlogId] = useState<string | null>(null);
 
   const handleDelete = async (id: string) => {
     toast.custom((t) => (
@@ -58,6 +60,10 @@ const ManageBlogsTable = ({ blogs }: ManageBlogsTableProps) => {
     ));
   };
 
+  if (editingBlogId) {
+    return <UpdateBlogForm blogId={editingBlogId} />;
+  }
+
   return (
     <>
       <Toaster richColors position="top-center" />
@@ -92,7 +98,10 @@ const ManageBlogsTable = ({ blogs }: ManageBlogsTableProps) => {
                   </td>
                   <td className="p-3 font-medium">{blog.title}</td>
                   <td className="p-3 text-center flex justify-center gap-4">
-                    <button className="text-blue-600 hover:text-blue-800 transition">
+                    <button
+                      className="text-blue-600 hover:text-blue-800 transition"
+                      onClick={() => setEditingBlogId(blog.id)}
+                    >
                       <Edit size={18} />
                     </button>
                     <button

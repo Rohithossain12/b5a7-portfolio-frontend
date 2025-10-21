@@ -49,3 +49,16 @@ export const updateProject = async (projectId: string, formData: FormData) => {
     return result;
 };
 
+export const updateBlog = async (blogId: string, formData: FormData) => {
+    const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_API}/blogs/${blogId}`,
+        {
+            method: "PATCH",
+            body: formData,
+        }
+    );
+
+    const result = await res.json();
+    return result;
+};
+
