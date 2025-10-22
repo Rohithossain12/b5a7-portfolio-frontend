@@ -2,6 +2,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { toast } from "sonner";
+import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -14,15 +19,33 @@ import {
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Upload } from "lucide-react";
-import Image from "next/image";
 import { updateBlog } from "@/actions/create";
-import { toast } from "sonner";
 import { BlogCardProps, UpdateBlogsFormProps } from "@/types/blogsTypes";
+
+
+const blogSchema = z.object({
+  title: z.string().min(3, "Title must be at least 3 characters"),
+  excerpt: z.string().min(10, "Excerpt must be at least 10 characters"),
+  content: z.string().min(20, "Content must be at least 20 characters"),
+  coverUrl: z.any().optional(),
+});
+
+type UpdateBlogFormData = z.infer<typeof blogSchema>;
 
 const UpdateBlogForm = ({ blogId }: UpdateBlogsFormProps) => {
   const [blog, setBlog] = useState<BlogCardProps | null>(null);
   const [fileName, setFileName] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<UpdateBlogFormData>({
+    resolver: zodResolver(blogSchema),
+  });
+
 
   useEffect(() => {
     const fetchBlog = async () => {
@@ -33,25 +56,33 @@ const UpdateBlogForm = ({ blogId }: UpdateBlogsFormProps) => {
         );
         const result = await res.json();
         setBlog(result.data);
+
+        reset({
+          title: result.data.title,
+          excerpt: result.data.excerpt,
+          content: result.data.content,
+        });
       } catch (err) {
         console.error(err);
       }
     };
     fetchBlog();
-  }, [blogId]);
+  }, [blogId, reset]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) setFileName(file.name);
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const onSubmit = async (data: UpdateBlogFormData) => {
     setLoading(true);
+    const formData = new FormData();
 
-    const formData = new FormData(e.currentTarget);
+    Object.entries(data).forEach(([key, value]: any) => {
+      if (value) formData.append(key, value);
+    });
 
-   
+ 
     if (!fileName && blog?.coverUrl) {
       formData.set("coverUrl", blog.coverUrl);
     }
@@ -70,7 +101,7 @@ const UpdateBlogForm = ({ blogId }: UpdateBlogsFormProps) => {
     }
   };
 
-  if (!blog) return <p className="text-center py-10">Loading blog...</p>;
+  
 
   return (
     <div className="flex justify-center items-center min-h-screen px-4 bg-gray-50">
@@ -85,45 +116,42 @@ const UpdateBlogForm = ({ blogId }: UpdateBlogsFormProps) => {
         </CardHeader>
 
         <CardContent>
-          <form className="space-y-6" onSubmit={handleSubmit}>
-         
+          <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+            {/* Title */}
             <div className="space-y-2">
               <Label htmlFor="title">Blog Title</Label>
-              <Input
-                id="title"
-                name="title"
-                defaultValue={blog.title}
-                required
-              />
+              <Input id="title" {...register("title")} />
+              {errors.title && (
+                <p className="text-red-500 text-sm">{errors.title.message}</p>
+              )}
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="excerpt">Excerpt</Label>
-              <Textarea
-                id="excerpt"
-                name="excerpt"
-                defaultValue={blog.excerpt}
-                required
-              />
+              <Textarea id="excerpt" {...register("excerpt")} />
+              {errors.excerpt && (
+                <p className="text-red-500 text-sm">{errors.excerpt.message}</p>
+              )}
             </div>
 
-       
+          
             <div className="space-y-2">
               <Label htmlFor="content">Content</Label>
               <Textarea
                 id="content"
-                name="content"
-                defaultValue={blog.content}
+                {...register("content")}
                 className="min-h-[150px]"
-                required
               />
+              {errors.content && (
+                <p className="text-red-500 text-sm">{errors.content.message}</p>
+              )}
             </div>
 
-           
+          
             <div className="space-y-2">
               <Label htmlFor="coverUrl">Cover Image</Label>
               <div className="flex items-center gap-3">
-                {blog.coverUrl && !fileName && (
+                {blog?.coverUrl && !fileName && (
                   <div className="w-20 h-20 relative rounded-lg overflow-hidden border">
                     <Image
                       src={blog.coverUrl}
@@ -133,13 +161,11 @@ const UpdateBlogForm = ({ blogId }: UpdateBlogsFormProps) => {
                     />
                   </div>
                 )}
-
                 {fileName && (
                   <div className="w-20 h-20 flex items-center justify-center border rounded-lg bg-gray-100">
                     <span className="text-sm text-gray-700">{fileName}</span>
                   </div>
                 )}
-
                 <label
                   htmlFor="coverUrl"
                   className="flex items-center gap-2 cursor-pointer border border-dashed p-3"
@@ -148,17 +174,22 @@ const UpdateBlogForm = ({ blogId }: UpdateBlogsFormProps) => {
                   <span>{fileName || "Click to upload"}</span>
                   <Input
                     id="coverUrl"
-                    name="coverUrl"
                     type="file"
                     className="hidden"
                     accept="image/*"
+                    {...register("coverUrl")}
                     onChange={handleFileChange}
                   />
                 </label>
+                {errors.coverUrl && (
+                  <p className="text-red-500 text-sm">
+                    {errors.coverUrl.message as string}
+                  </p>
+                )}
               </div>
             </div>
 
-         
+        
             <Button
               type="submit"
               className="w-full bg-[#2563EB] hover:bg-[#2563EB] text-white flex items-center justify-center gap-2"

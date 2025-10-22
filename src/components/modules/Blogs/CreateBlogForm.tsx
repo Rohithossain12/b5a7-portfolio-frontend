@@ -4,6 +4,9 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
 
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -19,29 +22,49 @@ import { Label } from "@/components/ui/label";
 import { Upload } from "lucide-react";
 import { createBlog } from "@/actions/create";
 
+
+const blogSchema = z.object({
+  title: z.string().min(3, "Title must be at least 3 characters"),
+  excerpt: z.string().min(10, "Excerpt must be at least 10 characters"),
+  content: z.string().min(20, "Content must be at least 20 characters"),
+  coverUrl: z.any().optional(), 
+});
+
+type BlogFormData = z.infer<typeof blogSchema>;
+
 const CreateBlogForm = () => {
   const [fileName, setFileName] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<BlogFormData>({
+    resolver: zodResolver(blogSchema),
+  });
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) setFileName(file.name);
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const onSubmit = async (data: BlogFormData) => {
     setLoading(true);
-    const formData = new FormData(e.currentTarget);
+    const formData = new FormData();
+    formData.append("title", data.title);
+    formData.append("excerpt", data.excerpt);
+    formData.append("content", data.content);
+    if (data.coverUrl && data.coverUrl[0]) {
+      formData.append("coverUrl", data.coverUrl[0]);
+    }
 
     try {
       const result = await createBlog(formData);
-
       if (result?.success) {
         toast.success("Blog created successfully!");
-        setTimeout(() => {
-          router.push("/blogs");
-        }, 1000);
+        setTimeout(() => router.push("/blogs"), 1000);
       } else {
         toast.error(result?.message || "Failed to create blog");
       }
@@ -65,43 +88,44 @@ const CreateBlogForm = () => {
         </CardHeader>
 
         <CardContent>
-          <form className="space-y-6" onSubmit={handleSubmit}>
-          
+          <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
             <div className="space-y-2">
               <Label htmlFor="title">Blog Title</Label>
               <Input
                 id="title"
-                name="title"
                 placeholder="Enter your blog title"
-                required
+                {...register("title")}
               />
+              {errors.title && (
+                <p className="text-red-500 text-sm">{errors.title.message}</p>
+              )}
             </div>
 
-         
             <div className="space-y-2">
               <Label htmlFor="excerpt">Excerpt</Label>
               <Textarea
                 id="excerpt"
-                name="excerpt"
                 placeholder="Write a short summary of your blog..."
-                className="min-h-[100px]"
-                required
+                {...register("excerpt")}
               />
+              {errors.excerpt && (
+                <p className="text-red-500 text-sm">{errors.excerpt.message}</p>
+              )}
             </div>
 
-           
             <div className="space-y-2">
               <Label htmlFor="content">Content</Label>
               <Textarea
                 id="content"
-                name="content"
                 placeholder="Write your full blog content here..."
                 className="min-h-[150px]"
-                required
+                {...register("content")}
               />
+              {errors.content && (
+                <p className="text-red-500 text-sm">{errors.content.message}</p>
+              )}
             </div>
 
-         
             <div className="space-y-2">
               <Label htmlFor="coverUrl">Cover Image</Label>
               <div className="flex items-center gap-3">
@@ -115,17 +139,19 @@ const CreateBlogForm = () => {
                   </span>
                   <Input
                     id="coverUrl"
-                    name="coverUrl"
                     type="file"
                     accept="image/*"
                     className="hidden"
+                    {...register("coverUrl")}
                     onChange={handleFileChange}
                   />
                 </label>
               </div>
+              {errors.coverUrl && (
+                <p className="text-red-500 text-sm">{errors.coverUrl.message as string}</p>
+              )}
             </div>
 
-        
             <div className="pt-2">
               <Button
                 type="submit"

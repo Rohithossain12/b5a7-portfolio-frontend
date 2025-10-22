@@ -2,6 +2,12 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -15,23 +21,40 @@ import {
 import { Label } from "@/components/ui/label";
 import { Upload } from "lucide-react";
 import { createProject } from "@/actions/create";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+
+const projectSchema = z.object({
+  title: z.string().min(3, "Title must be at least 3 characters"),
+  description: z.string().min(5, "Description must be at least 5 characters"),
+  features: z.string().optional(),
+  technologies: z.string().optional(),
+  frontendUrl: z.string().url("Must be a valid URL").optional().or(z.literal("")),
+  backendUrl: z.string().url("Must be a valid URL").optional().or(z.literal("")),
+  liveUrl: z.string().url("Must be a valid URL").optional().or(z.literal("")),
+  thumbnail: z.any().optional(),
+});
+
+type ProjectFormData = z.infer<typeof projectSchema>;
 
 const CreateProjectForm = () => {
   const [fileName, setFileName] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) setFileName(file.name);
-  };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ProjectFormData>({
+    resolver: zodResolver(projectSchema),
+  });
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setLoading(true); 
-    const formData = new FormData(e.currentTarget);
+  const onSubmit = async (data: ProjectFormData) => {
+    setLoading(true);
+    const formData = new FormData();
+
+    Object.entries(data).forEach(([key, value]: any) => {
+      if (value) formData.append(key, value);
+    });
 
     try {
       const result = await createProject(formData);
@@ -47,7 +70,14 @@ const CreateProjectForm = () => {
     } catch (error: any) {
       toast.error(error.message || "Something went wrong!");
     } finally {
-      setLoading(false); 
+      setLoading(false);
+    }
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setFileName(file.name);
     }
   };
 
@@ -64,45 +94,57 @@ const CreateProjectForm = () => {
         </CardHeader>
 
         <CardContent>
-          <form className="space-y-6" onSubmit={handleSubmit}>
+          <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
             <div className="space-y-2">
               <Label htmlFor="title">Project Title</Label>
               <Input
                 id="title"
-                name="title"
                 placeholder="Enter your project title"
-                required
+                {...register("title")}
               />
+              {errors.title && (
+                <p className="text-red-500 text-sm">{errors.title?.message}</p>
+              )}
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="description">Description</Label>
               <Textarea
                 id="description"
-                name="description"
                 placeholder="Write a brief description..."
-                required
+                {...register("description")}
               />
+              {errors.description && (
+                <p className="text-red-500 text-sm">
+                  {errors.description?.message}
+                </p>
+              )}
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="features">Features (comma separated)</Label>
               <Input
                 id="features"
-                name="features"
                 placeholder="e.g., User Login, Dashboard"
+                {...register("features")}
               />
+              {errors.features && (
+                <p className="text-red-500 text-sm">{errors.features?.message}</p>
+              )}
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="technologies">
-                Technologies (comma separated)
-              </Label>
+              <Label htmlFor="technologies">Technologies (comma separated)</Label>
               <Input
                 id="technologies"
-                name="technologies"
                 placeholder="e.g., React, Node.js"
+                {...register("technologies")}
               />
+              {errors.technologies && (
+                <p className="text-red-500 text-sm">
+                  {errors.technologies?.message}
+                </p>
+              )}
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -110,17 +152,27 @@ const CreateProjectForm = () => {
                 <Label htmlFor="frontendUrl">Frontend URL</Label>
                 <Input
                   id="frontendUrl"
-                  name="frontendUrl"
                   placeholder="https://frontend-link.com"
+                  {...register("frontendUrl")}
                 />
+                {errors.frontendUrl && (
+                  <p className="text-red-500 text-sm">
+                    {errors.frontendUrl?.message}
+                  </p>
+                )}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="backendUrl">Backend URL</Label>
                 <Input
                   id="backendUrl"
-                  name="backendUrl"
                   placeholder="https://backend-link.com"
+                  {...register("backendUrl")}
                 />
+                {errors.backendUrl && (
+                  <p className="text-red-500 text-sm">
+                    {errors.backendUrl?.message}
+                  </p>
+                )}
               </div>
             </div>
 
@@ -128,9 +180,12 @@ const CreateProjectForm = () => {
               <Label htmlFor="liveUrl">Live URL</Label>
               <Input
                 id="liveUrl"
-                name="liveUrl"
                 placeholder="https://your-live-site.com"
+                {...register("liveUrl")}
               />
+              {errors.liveUrl && (
+                <p className="text-red-500 text-sm">{errors.liveUrl?.message}</p>
+              )}
             </div>
 
             <div className="space-y-2">
@@ -144,22 +199,25 @@ const CreateProjectForm = () => {
                   <span>{fileName || "Click to upload"}</span>
                   <Input
                     id="thumbnail"
-                    name="thumbnail"
                     type="file"
                     accept="image/*"
                     className="hidden"
+                    {...register("thumbnail")}
                     onChange={handleFileChange}
                   />
                 </label>
+                {errors.thumbnail && (
+                  <p className="text-red-500 text-sm">{errors.thumbnail?.message as string}</p>
+                )}
               </div>
             </div>
 
             <Button
               type="submit"
               className="w-full bg-[#2563EB] hover:bg-[#2563EB] text-white flex items-center justify-center gap-2"
-              disabled={loading} 
+              disabled={loading}
             >
-              {loading ? "Creating..." : "Create Project"} 
+              {loading ? "Creating..." : "Create Project"}
             </Button>
           </form>
         </CardContent>
