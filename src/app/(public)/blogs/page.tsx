@@ -18,8 +18,8 @@ const BlogPage = async () => {
   const blogs = result.data;
 
   return (
-    <section className="py-10 px-6 lg:px-12 bg-gray-50 min-h-screen">
-      <h1 className="text-3xl font-bold text-center mb-10 text-blue-500">
+    <section className="py-6 md:py-10 px-4 lg:px-12 bg-gray-50 min-h-screen">
+      <h1 className="text-2xl md:text-3xl font-bold text-center mb-6 md:mb-8 text-blue-500">
         All Blogs
       </h1>
 

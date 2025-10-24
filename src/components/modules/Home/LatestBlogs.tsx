@@ -8,7 +8,7 @@ interface LatestBlogsProps {
 
 const LatestBlogs = ({ blogs }: LatestBlogsProps) => {
   return (
-    <section className="py-8 px-6 lg:px-12 bg-white dark:bg-gray-900">
+    <section className="py-6 md:py-8 px-4 lg:px-12 bg-white dark:bg-gray-900">
       <h2 className="text-2xl md:text-3xl font-bold text-center mb-8 text-blue-500">
          Latest Blogs
       </h2>

@@ -25,7 +25,7 @@ export default function AboutPage() {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="text-2xl md:text-4xl  font-bold text-center mb-14  text-blue-500"
+        className="text-2xl md:text-3xl  font-bold text-center  mb-10  text-blue-500"
       >
         About Me
       </motion.h1>
@@ -60,7 +60,7 @@ export default function AboutPage() {
           transition={{ delay: 0.3 }}
           className="p-6 rounded-lg border border-gray-200 shadow"
         >
-          <h2 className="text-2xl font-semibold mb-4 text-blue-400">
+          <h2 className="text-xl font-semibold mb-4 text-blue-400">
             🎓 Education
           </h2>
           <p className="font-medium">
@@ -77,7 +77,7 @@ export default function AboutPage() {
           transition={{ delay: 0.4 }}
           className="p-6 rounded-lg border border-gray-200 shadow"
         >
-          <h2 className="text-2xl font-semibold mb-4 text-purple-400">
+          <h2 className="text-xl font-semibold mb-4 text-purple-400">
             💼 Experience
           </h2>
           <p className="font-medium">Frontend Developer — Freelance Projects</p>
@@ -87,14 +87,14 @@ export default function AboutPage() {
         </motion.div>
       </div>
 
-      {/* Skills */}
+
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5 }}
         className="mt-16"
       >
-        <h2 className="text-3xl font-semibold mb-6 text-center text-gradient bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text">
+        <h2 className="text-2xl md:text-3xl font-semibold mb-6 text-center text-gradient bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text">
           Technical Skills
         </h2>
         <div className="space-y-4 max-w-3xl mx-auto">

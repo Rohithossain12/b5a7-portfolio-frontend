@@ -8,7 +8,7 @@ import { ProjectProps } from "@/types/projectTypes";
 
 const ProjectDetails = ({ project }: ProjectProps) => {
   return (
-    <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <section className="max-w-6xl mx-auto px-4 py-8  md:py-12">
       {project.thumbnail && (
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -30,7 +30,7 @@ const ProjectDetails = ({ project }: ProjectProps) => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-4"
+          className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white mb-4"
         >
           {project.title}
         </motion.h1>
@@ -52,7 +52,7 @@ const ProjectDetails = ({ project }: ProjectProps) => {
           transition={{ delay: 0.3 }}
           className="mt-8"
         >
-          <h2 className="text-2xl font-semibold mb-3 flex items-center gap-2">
+          <h2 className="text-xl md:text-2xl font-semibold mb-3 flex items-center gap-2">
             <Wrench className="w-5 h-5 text-blue-600" /> Key Features
           </h2>
           <ul className="list-disc list-inside space-y-1 text-gray-600 dark:text-gray-300">
@@ -70,7 +70,7 @@ const ProjectDetails = ({ project }: ProjectProps) => {
           transition={{ delay: 0.4 }}
           className="mt-8"
         >
-          <h2 className="text-2xl font-semibold mb-3 flex items-center gap-2">
+          <h2 className="text-xl md:text-2xl font-semibold mb-3 flex items-center gap-2">
             <Code className="w-5 h-5 text-green-600" /> Technologies Used
           </h2>
           <div className="flex flex-wrap gap-3">

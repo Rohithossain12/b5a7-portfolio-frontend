@@ -7,7 +7,7 @@ import { TypeAnimation } from "react-type-animation";
 
 const Hero = () => {
   return (
-    <section className="min-h-screen flex flex-col justify-center items-center text-center bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-950 px-6 pt-4 md:pt-0">
+    <section className="min-h-screen flex flex-col justify-center items-center text-center bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-950 px-4 pt-4 md:pt-0">
       <motion.h1
         initial={{ opacity: 0, y: -40 }}
         animate={{ opacity: 1, y: 0 }}

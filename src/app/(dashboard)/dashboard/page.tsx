@@ -23,7 +23,7 @@ const DashboardHomePage = async () => {
   const projects: ProjectCardProps[] = (await resProjects.json()).data || [];
 
   return (
-    <div className="px-4 max-w-6xl mx-auto">
+    <div className="max-w-6xl mx-auto">
       <DashboardCards
         blogsCount={blogs.length}
         projectsCount={projects.length}

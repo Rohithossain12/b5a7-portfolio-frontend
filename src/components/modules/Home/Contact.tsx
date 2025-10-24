@@ -6,8 +6,8 @@ import { Mail, Phone, MapPin } from "lucide-react";
 
 const Contact = () => {
   return (
-    <section id="contact" className=" py-10 bg-white  ">
-      <div className="max-w-5xl mx-auto px-6 text-center">
+    <section id="contact" className=" py-5 md:py-10 bg-white  ">
+      <div className="max-w-5xl mx-auto px-4 text-center">
         <motion.h2
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}

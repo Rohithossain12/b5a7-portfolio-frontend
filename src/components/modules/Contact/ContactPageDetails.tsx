@@ -35,12 +35,12 @@ export default function ContactPageDetails() {
   };
 
   return (
-    <section className="min-h-screen flex flex-col justify-center items-center   px-4 md:py-12 text-gray-800 dark:text-gray-100">
+    <section className="min-h-screen flex flex-col justify-center items-center py-8  px-4 md:py-12 text-gray-800 dark:text-gray-100">
       <motion.h1
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="text-2xl md:text-4xl font-bold text-blue-500 mb-6 text-center"
+        className="text-2xl md:text-3xl font-bold text-blue-500 mb-6 text-center"
       >
         Get In Touch
       </motion.h1>

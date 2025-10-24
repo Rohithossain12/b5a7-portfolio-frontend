@@ -76,8 +76,8 @@ const CreateBlogForm = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen px-4 bg-gray-50">
-      <Card className="w-full max-w-2xl shadow-lg border border-gray-200">
+    <div className="flex py-6 md:py-0 justify-center items-center min-h-screen  bg-gray-50">
+      <Card className="w-full max-w-7xl shadow-lg border border-gray-200">
         <CardHeader>
           <CardTitle className="text-xl font-bold text-center">
             Create New Blog

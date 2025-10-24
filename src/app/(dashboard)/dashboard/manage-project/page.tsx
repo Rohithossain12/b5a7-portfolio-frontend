@@ -17,7 +17,7 @@ const ManageProjectPage = async () => {
   const projects: ProjectCardProps[] = result.data;
 
   return (
-    <section className="max-w-6xl mx-auto px-4">
+    <section className="max-w-7xl mx-auto py-4 md:py-0">
     
      
       <ManageProjectsTable projects={projects} />

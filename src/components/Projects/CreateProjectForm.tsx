@@ -27,8 +27,16 @@ const projectSchema = z.object({
   description: z.string().min(5, "Description must be at least 5 characters"),
   features: z.string().optional(),
   technologies: z.string().optional(),
-  frontendUrl: z.string().url("Must be a valid URL").optional().or(z.literal("")),
-  backendUrl: z.string().url("Must be a valid URL").optional().or(z.literal("")),
+  frontendUrl: z
+    .string()
+    .url("Must be a valid URL")
+    .optional()
+    .or(z.literal("")),
+  backendUrl: z
+    .string()
+    .url("Must be a valid URL")
+    .optional()
+    .or(z.literal("")),
   liveUrl: z.string().url("Must be a valid URL").optional().or(z.literal("")),
   thumbnail: z.any().optional(),
 });
@@ -82,8 +90,8 @@ const CreateProjectForm = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen px-4 bg-gray-50">
-      <Card className="w-full max-w-2xl shadow-lg border border-gray-200">
+    <div className="flex justify-center items-center min-h-screen py-6 md:py-0 bg-gray-50">
+      <Card className="w-full max-w-7xl shadow-lg border border-gray-200">
         <CardHeader>
           <CardTitle className="text-2xl font-bold text-center text-gray-800">
             Create New Project
@@ -129,12 +137,16 @@ const CreateProjectForm = () => {
                 {...register("features")}
               />
               {errors.features && (
-                <p className="text-red-500 text-sm">{errors.features?.message}</p>
+                <p className="text-red-500 text-sm">
+                  {errors.features?.message}
+                </p>
               )}
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="technologies">Technologies (comma separated)</Label>
+              <Label htmlFor="technologies">
+                Technologies (comma separated)
+              </Label>
               <Input
                 id="technologies"
                 placeholder="e.g., React, Node.js"
@@ -184,7 +196,9 @@ const CreateProjectForm = () => {
                 {...register("liveUrl")}
               />
               {errors.liveUrl && (
-                <p className="text-red-500 text-sm">{errors.liveUrl?.message}</p>
+                <p className="text-red-500 text-sm">
+                  {errors.liveUrl?.message}
+                </p>
               )}
             </div>
 
@@ -207,7 +221,9 @@ const CreateProjectForm = () => {
                   />
                 </label>
                 {errors.thumbnail && (
-                  <p className="text-red-500 text-sm">{errors.thumbnail?.message as string}</p>
+                  <p className="text-red-500 text-sm">
+                    {errors.thumbnail?.message as string}
+                  </p>
                 )}
               </div>
             </div>

@@ -104,8 +104,8 @@ const UpdateBlogForm = ({ blogId }: UpdateBlogsFormProps) => {
   
 
   return (
-    <div className="flex justify-center items-center min-h-screen px-4 bg-gray-50">
-      <Card className="w-full max-w-2xl shadow-lg border border-gray-200">
+    <div className="flex justify-center items-center min-h-screen py-6 md:py-0 bg-gray-50">
+      <Card className="w-full max-w-7xl shadow-lg border border-gray-200">
         <CardHeader>
           <CardTitle className="text-2xl font-bold text-center text-gray-800">
             Update Blog
@@ -117,7 +117,7 @@ const UpdateBlogForm = ({ blogId }: UpdateBlogsFormProps) => {
 
         <CardContent>
           <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
-            {/* Title */}
+          
             <div className="space-y-2">
               <Label htmlFor="title">Blog Title</Label>
               <Input id="title" {...register("title")} />

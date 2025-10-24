@@ -67,7 +67,7 @@ const ManageBlogsTable = ({ blogs }: ManageBlogsTableProps) => {
   return (
     <>
       <Toaster richColors position="top-center" />
-      <div className="overflow-x-auto rounded-2xl shadow">
+      <div className="overflow-x-auto rounded-2xl shadow ">
         <table className="min-w-full text-sm text-gray-700">
           <thead className="bg-gray-100 text-gray-800">
             <tr>
