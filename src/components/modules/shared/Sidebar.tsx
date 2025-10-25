@@ -22,7 +22,7 @@ export default function Sidebar({ isOpen }: { isOpen: boolean }) {
       )}
     >
       <div className="p-4 border-b border-white/20">
-        <h2 className="text-xl font-semibold">Dashboard</h2>
+        <h2 className="text-xl px-3 font-semibold">Dashboard</h2>
       </div>
 
       <nav className="flex-1 space-y-2 p-4">

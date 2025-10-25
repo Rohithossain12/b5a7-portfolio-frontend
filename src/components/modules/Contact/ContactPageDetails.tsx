@@ -80,7 +80,7 @@ export default function ContactPageDetails() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.6, duration: 0.8 }}
-        className="w-full max-w-lg bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md space-y-4"
+        className="w-full max-w-2xl bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md space-y-4"
       >
         <Input
           placeholder="Your Name"

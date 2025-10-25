@@ -42,6 +42,7 @@ export const updateProject = async (projectId: string, formData: FormData) => {
         {
             method: "PATCH",
             body: formData,
+            credentials: "include",
         }
     );
 
@@ -55,6 +56,7 @@ export const updateBlog = async (blogId: string, formData: FormData) => {
         {
             method: "PATCH",
             body: formData,
+            credentials: "include",
         }
     );
 

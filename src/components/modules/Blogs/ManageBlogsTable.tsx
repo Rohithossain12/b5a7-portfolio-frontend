@@ -29,7 +29,6 @@ const ManageBlogsTable = ({ blogs }: ManageBlogsTableProps) => {
                   `${process.env.NEXT_PUBLIC_BASE_API}/blogs/${id}`,
                   {
                     method: "DELETE",
-                    // credentials: "include",
                   }
                 );
                 const data = await res.json();
