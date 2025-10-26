@@ -60,9 +60,16 @@ const CreateProjectForm = () => {
     setLoading(true);
     const formData = new FormData();
 
+   
     Object.entries(data).forEach(([key, value]: any) => {
-      if (value) formData.append(key, value);
+      if (value && key !== "thumbnail") formData.append(key, value);
     });
+
+  
+    const fileInput = document.getElementById("thumbnail") as HTMLInputElement;
+    if (fileInput?.files?.[0]) {
+      formData.append("thumbnail", fileInput.files[0]);
+    }
 
     try {
       const result = await createProject(formData);
@@ -103,6 +110,7 @@ const CreateProjectForm = () => {
 
         <CardContent>
           <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+          
             <div className="space-y-2">
               <Label htmlFor="title">Project Title</Label>
               <Input
@@ -115,6 +123,7 @@ const CreateProjectForm = () => {
               )}
             </div>
 
+            
             <div className="space-y-2">
               <Label htmlFor="description">Description</Label>
               <Textarea
@@ -129,6 +138,7 @@ const CreateProjectForm = () => {
               )}
             </div>
 
+          
             <div className="space-y-2">
               <Label htmlFor="features">Features (comma separated)</Label>
               <Input
@@ -159,6 +169,7 @@ const CreateProjectForm = () => {
               )}
             </div>
 
+          
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="frontendUrl">Frontend URL</Label>
@@ -202,6 +213,7 @@ const CreateProjectForm = () => {
               )}
             </div>
 
+            
             <div className="space-y-2">
               <Label htmlFor="thumbnail">Thumbnail Image</Label>
               <div className="flex items-center gap-3">

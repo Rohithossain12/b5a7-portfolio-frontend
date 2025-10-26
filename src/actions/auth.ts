@@ -7,6 +7,7 @@ export const login = async (data: FieldValues) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(data),
+    credentials: "include",
   });
   if (!res?.ok) {
     console.error("Login Failed", await res.text());

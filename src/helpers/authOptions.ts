@@ -40,8 +40,8 @@ export const authOptions: NextAuthOptions = {
                 email: credentials.email,
                 password: credentials.password,
               }),
-            }
-          );
+               credentials: "include",
+            });
 
           if (!res.ok) {
             console.error("Login Failed", await res.text());

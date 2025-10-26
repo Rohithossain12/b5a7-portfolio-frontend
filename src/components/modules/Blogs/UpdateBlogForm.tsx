@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
@@ -22,7 +23,6 @@ import { Upload } from "lucide-react";
 import { updateBlog } from "@/actions/create";
 import { BlogCardProps, UpdateBlogsFormProps } from "@/types/blogsTypes";
 
-
 const blogSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters"),
   excerpt: z.string().min(10, "Excerpt must be at least 10 characters"),
@@ -34,26 +34,17 @@ type UpdateBlogFormData = z.infer<typeof blogSchema>;
 
 const UpdateBlogForm = ({ blogId }: UpdateBlogsFormProps) => {
   const [blog, setBlog] = useState<BlogCardProps | null>(null);
-  const [fileName, setFileName] = useState("");
+  const [preview, setPreview] = useState<string>(""); 
   const [loading, setLoading] = useState(false);
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<UpdateBlogFormData>({
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<UpdateBlogFormData>({
     resolver: zodResolver(blogSchema),
   });
-
 
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_API}/blogs/${blogId}`,
-          { cache: "no-store" }
-        );
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blogs/${blogId}`, { cache: "no-store" });
         const result = await res.json();
         setBlog(result.data);
 
@@ -62,6 +53,8 @@ const UpdateBlogForm = ({ blogId }: UpdateBlogsFormProps) => {
           excerpt: result.data.excerpt,
           content: result.data.content,
         });
+
+        setPreview(result.data.coverUrl || "");
       } catch (err) {
         console.error(err);
       }
@@ -71,7 +64,9 @@ const UpdateBlogForm = ({ blogId }: UpdateBlogsFormProps) => {
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) setFileName(file.name);
+    if (file) {
+      setPreview(URL.createObjectURL(file));
+    }
   };
 
   const onSubmit = async (data: UpdateBlogFormData) => {
@@ -82,9 +77,10 @@ const UpdateBlogForm = ({ blogId }: UpdateBlogsFormProps) => {
       if (value) formData.append(key, value);
     });
 
- 
-    if (!fileName && blog?.coverUrl) {
-      formData.set("coverUrl", blog.coverUrl);
+   
+    const fileInput = document.getElementById("coverUrl") as HTMLInputElement;
+    if (fileInput?.files?.[0]) {
+      formData.append("coverUrl", fileInput.files[0]);
     }
 
     try {
@@ -101,8 +97,6 @@ const UpdateBlogForm = ({ blogId }: UpdateBlogsFormProps) => {
     }
   };
 
-  
-
   return (
     <div className="flex justify-center items-center min-h-screen py-6 md:py-0 bg-gray-50">
       <Card className="w-full max-w-7xl shadow-lg border border-gray-200">
@@ -117,84 +111,52 @@ const UpdateBlogForm = ({ blogId }: UpdateBlogsFormProps) => {
 
         <CardContent>
           <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
-          
+           
             <div className="space-y-2">
               <Label htmlFor="title">Blog Title</Label>
               <Input id="title" {...register("title")} />
-              {errors.title && (
-                <p className="text-red-500 text-sm">{errors.title.message}</p>
-              )}
+              {errors.title && <p className="text-red-500 text-sm">{errors.title.message}</p>}
             </div>
 
+           
             <div className="space-y-2">
               <Label htmlFor="excerpt">Excerpt</Label>
               <Textarea id="excerpt" {...register("excerpt")} />
-              {errors.excerpt && (
-                <p className="text-red-500 text-sm">{errors.excerpt.message}</p>
-              )}
+              {errors.excerpt && <p className="text-red-500 text-sm">{errors.excerpt.message}</p>}
             </div>
 
           
             <div className="space-y-2">
               <Label htmlFor="content">Content</Label>
-              <Textarea
-                id="content"
-                {...register("content")}
-                className="min-h-[150px]"
-              />
-              {errors.content && (
-                <p className="text-red-500 text-sm">{errors.content.message}</p>
-              )}
+              <Textarea id="content" {...register("content")} className="min-h-[150px]" />
+              {errors.content && <p className="text-red-500 text-sm">{errors.content.message}</p>}
             </div>
 
-          
+       
             <div className="space-y-2">
               <Label htmlFor="coverUrl">Cover Image</Label>
               <div className="flex items-center gap-3">
-                {blog?.coverUrl && !fileName && (
-                  <div className="w-20 h-20 relative rounded-lg overflow-hidden border">
-                    <Image
-                      src={blog.coverUrl}
-                      alt="Cover Image"
-                      fill
-                      className="object-cover"
-                    />
+                {preview && (
+                  <div className="w-28 h-28 relative rounded-lg overflow-hidden border">
+                    <Image src={preview} alt="Cover Preview" fill className="object-cover" />
                   </div>
                 )}
-                {fileName && (
-                  <div className="w-20 h-20 flex items-center justify-center border rounded-lg bg-gray-100">
-                    <span className="text-sm text-gray-700">{fileName}</span>
-                  </div>
-                )}
-                <label
-                  htmlFor="coverUrl"
-                  className="flex items-center gap-2 cursor-pointer border border-dashed p-3"
-                >
+                <label htmlFor="coverUrl" className="flex items-center gap-2 cursor-pointer border border-dashed p-3">
                   <Upload className="w-5 h-5" />
-                  <span>{fileName || "Click to upload"}</span>
+                  <span className="text-sm text-gray-600">Click to upload</span>
                   <Input
                     id="coverUrl"
                     type="file"
-                    className="hidden"
                     accept="image/*"
+                    className="hidden"
                     {...register("coverUrl")}
                     onChange={handleFileChange}
                   />
                 </label>
-                {errors.coverUrl && (
-                  <p className="text-red-500 text-sm">
-                    {errors.coverUrl.message as string}
-                  </p>
-                )}
               </div>
             </div>
 
-        
-            <Button
-              type="submit"
-              className="w-full bg-[#2563EB] hover:bg-[#2563EB] text-white flex items-center justify-center gap-2"
-              disabled={loading}
-            >
+            <Button type="submit" className="w-full bg-[#2563EB] hover:bg-[#2563EB] text-white" disabled={loading}>
               {loading ? "Updating..." : "Update Blog"}
             </Button>
           </form>

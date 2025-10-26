@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
@@ -45,7 +46,7 @@ type UpdateProjectFormData = z.infer<typeof projectSchema>;
 
 const UpdateProjectForm = ({ projectId }: UpdateProjectFormProps) => {
   const [project, setProject] = useState<ProjectCardProps | null>(null);
-  const [fileName, setFileName] = useState("");
+  const [preview, setPreview] = useState<string>("");
   const [loading, setLoading] = useState(false);
 
   const {
@@ -76,6 +77,8 @@ const UpdateProjectForm = ({ projectId }: UpdateProjectFormProps) => {
           backendUrl: result.data.backendUrl,
           liveUrl: result.data.liveUrl,
         });
+
+        setPreview(result.data.thumbnail || "");
       } catch (err) {
         console.error(err);
       }
@@ -85,7 +88,9 @@ const UpdateProjectForm = ({ projectId }: UpdateProjectFormProps) => {
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) setFileName(file.name);
+    if (file) {
+      setPreview(URL.createObjectURL(file));
+    }
   };
 
   const onSubmit = async (data: UpdateProjectFormData) => {
@@ -96,8 +101,9 @@ const UpdateProjectForm = ({ projectId }: UpdateProjectFormProps) => {
       if (value) formData.append(key, value);
     });
 
-    if (!fileName && project?.thumbnail) {
-      formData.set("thumbnail", project.thumbnail);
+    const fileInput = document.getElementById("thumbnail") as HTMLInputElement;
+    if (fileInput?.files?.[0]) {
+      formData.append("thumbnail", fileInput.files[0]);
     }
 
     try {
@@ -115,7 +121,7 @@ const UpdateProjectForm = ({ projectId }: UpdateProjectFormProps) => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen  bg-gray-50">
+    <div className="flex justify-center items-center min-h-screen bg-gray-50">
       <Card className="w-full max-w-7xl shadow-lg border border-gray-200">
         <CardHeader>
           <CardTitle className="text-2xl font-bold text-center text-gray-800">
@@ -145,7 +151,6 @@ const UpdateProjectForm = ({ projectId }: UpdateProjectFormProps) => {
               )}
             </div>
 
-       
             <div className="space-y-2">
               <Label htmlFor="features">Features (comma separated)</Label>
               <Input id="features" {...register("features")} />
@@ -168,7 +173,6 @@ const UpdateProjectForm = ({ projectId }: UpdateProjectFormProps) => {
               )}
             </div>
 
-     
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="frontendUrl">Frontend URL</Label>
@@ -198,7 +202,6 @@ const UpdateProjectForm = ({ projectId }: UpdateProjectFormProps) => {
               </div>
             </div>
 
-        
             <div className="space-y-2">
               <Label htmlFor="liveUrl">Live URL</Label>
               <Input
@@ -214,19 +217,14 @@ const UpdateProjectForm = ({ projectId }: UpdateProjectFormProps) => {
             <div className="space-y-2">
               <Label htmlFor="thumbnail">Thumbnail Image</Label>
               <div className="flex items-center gap-3">
-                {project?.thumbnail && !fileName && (
-                  <div className="w-20 h-20 relative rounded-lg overflow-hidden border">
+                {preview && (
+                  <div className="w-28 h-28 relative rounded-lg overflow-hidden border">
                     <Image
-                      src={project.thumbnail}
-                      alt="Thumbnail"
+                      src={preview}
+                      alt="Thumbnail Preview"
                       fill
                       className="object-cover"
                     />
-                  </div>
-                )}
-                {fileName && (
-                  <div className="w-20 h-20 flex items-center justify-center border rounded-lg bg-gray-100">
-                    <span className="text-sm text-gray-700">{fileName}</span>
                   </div>
                 )}
                 <label
@@ -234,27 +232,22 @@ const UpdateProjectForm = ({ projectId }: UpdateProjectFormProps) => {
                   className="flex items-center gap-2 cursor-pointer border border-dashed p-3"
                 >
                   <Upload className="w-5 h-5" />
-                  <span>{fileName || "Click to upload"}</span>
+                  <span className="text-sm text-gray-600">Click to upload</span>
                   <Input
                     id="thumbnail"
                     type="file"
-                    className="hidden"
                     accept="image/*"
+                    className="hidden"
                     {...register("thumbnail")}
                     onChange={handleFileChange}
                   />
                 </label>
-                {errors.thumbnail && (
-                  <p className="text-red-500 text-sm">
-                    {errors.thumbnail.message as string}
-                  </p>
-                )}
               </div>
             </div>
 
             <Button
               type="submit"
-              className="w-full bg-[#2563EB] hover:bg-[#2563EB] text-white flex items-center justify-center gap-2"
+              className="w-full bg-[#2563EB] hover:bg-[#2563EB] text-white"
               disabled={loading}
             >
               {loading ? "Updating..." : "Update Project"}
