@@ -1,3 +1,4 @@
+
 # 🌐 B5A7 – My Portfolio Website
 
 > Personal Portfolio Website built with NextJS, TypeScript, Tailwind CSS, Node.js, and ExpressJS.
@@ -51,28 +52,43 @@ This is a professional, responsive, and dynamic portfolio website. It showcases 
 
 ---
 
-## ⚡ Bonus Features (Optional)
-
-- Rich Text Editor for blog/project content using `React Quill`.
-- Interactive UI with carousels, cards, and skeleton loaders.
-- Lazy-loading of heavy assets for optimized performance.
-- Accessibility-compliant components and semantic HTML.
-- Strict form validation and API error handling with clear toast messages.
-
----
-
 ## 📦 Installation & Local Setup
 
 Clone the frontend repository:
 
 ```bash
-git clone https://github.com/yourusername/b5a7-portfolio-frontend.git
+git clone https://github.com/Rohithossain12/b5a7-portfolio-frontend.git
 cd b5a7-portfolio-frontend
+````
 
 Install dependencies:
 
----
+```bash
 npm install
+```
+
+Create `.env.local` if you want custom environment variables (optional):
+
+```env
+NEXT_PUBLIC_BASE_API=http://localhost:3005/api/v1
+AUTH_SECRET=AwIL8qRZPL3jUQa2vz2jI
+```
+
+Run the development server:
+
+```bash
+npm run dev
+```
+
+Visit [http://localhost:3000](http://localhost:3000) to see the website.
+
+> ⚠️ Note: If you don’t provide a `.env.local`, default variables will be used for local development.
+
+---
+
+## 🌐 Live Deployment
+
+Live URL: `https://your-live-portfolio-url.com` *(replace with actual URL later)*
 
 ---
 
