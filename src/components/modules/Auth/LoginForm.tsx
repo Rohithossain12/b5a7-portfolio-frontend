@@ -14,26 +14,27 @@ import {
 } from "@/components/ui/form";
 import { signIn } from "next-auth/react";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
-  const router = useRouter();
   const form = useForm<FieldValues>({
-    defaultValues: { email: "", password: "" },
+    defaultValues: {
+      email: "",
+      password: "",
+    },
   });
 
   const onSubmit = async (values: FieldValues) => {
     try {
       const result = await signIn("credentials", {
         ...values,
-        redirect: false, 
+        redirect: false,
       });
 
       if (result?.error) {
         toast.error("Invalid email or password");
       } else {
         toast.success("Login successful");
-        router.push("/"); 
+        window.location.href = "/dashboard"; 
       }
     } catch (err) {
       console.error(err);
@@ -42,14 +43,16 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="flex justify-center items-center py-16 md:py-24">
+    <div className="flex justify-center items-center py-16  md:py-24 ">
       <div className="space-y-6 w-full max-w-md bg-white p-8 rounded-lg border border-gray-100 shadow">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
             className="space-y-6 w-full max-w-md"
           >
-            <h2 className="text-2xl md:text-3xl font-bold text-center">Login</h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-center">
+              Login
+            </h2>
 
             <FormField
               control={form.control}
@@ -58,7 +61,11 @@ export default function LoginForm() {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input type="email" placeholder="Enter your email" {...field} />
+                    <Input
+                      type="email"
+                      placeholder="Enter your email"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -72,7 +79,11 @@ export default function LoginForm() {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input type="password" placeholder="Enter your password" {...field} />
+                    <Input
+                      type="password"
+                      placeholder="Enter your password"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
